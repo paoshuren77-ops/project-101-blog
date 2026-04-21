@@ -538,10 +538,16 @@ h1 {
 }
 
 .admin-form label,
-.post-editor label {
+.post-editor label,
+.editor-field {
   gap: 8px;
   color: var(--muted);
   font-weight: 800;
+}
+
+.editor-field {
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-form input,
@@ -669,6 +675,97 @@ h1 {
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--line);
+}
+
+.rich-editor {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.rich-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.rich-editor-toolbar button {
+  min-width: 38px;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.rich-editor-toolbar button.is-active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.rich-editor-body {
+  min-height: 360px;
+  background: var(--bg);
+}
+
+.rich-editor-body .w-e-text-container {
+  min-height: 420px;
+}
+
+.rich-editor-body .w-e-scroll {
+  min-height: 420px;
+}
+
+.rich-editor-body .w-e-text-placeholder {
+  color: var(--muted);
+}
+
+.rich-editor-body .w-e-text-container [data-slate-editor] {
+  padding: 18px;
+  color: var(--ink);
+  outline: 0;
+}
+
+.rich-editor-body p {
+  color: var(--ink);
+}
+
+.rich-editor-loading {
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.article-content blockquote,
+.rich-editor blockquote {
+  margin: 1.4em 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+}
+
+.article-content ul,
+.article-content ol,
+.rich-editor ul,
+.rich-editor ol {
+  padding-left: 1.4em;
+}
+
+.article-content a,
+.rich-editor a {
+  color: var(--accent-strong);
+  font-weight: 800;
 }
 
 @media (max-width: 980px) {

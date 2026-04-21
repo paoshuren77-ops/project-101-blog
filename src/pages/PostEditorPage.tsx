@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminGuard from "../components/AdminGuard";
+import RichTextEditor from "../components/RichTextEditor";
 import { getAdminPost, savePost, slugify, uploadCoverImage } from "../lib/posts";
 import { requireSupabase } from "../lib/supabase";
 import type { BlogPost, PostFormValues, PostStatus } from "../types/post";
@@ -12,7 +13,7 @@ const emptyForm: PostFormValues = {
   excerpt: "",
   content: "",
   topic: "工程",
-  author: "林墨",
+  author: "梨木",
   tags: "",
   coverImage: "",
   coverAlt: "",
@@ -87,20 +88,39 @@ function PostEditorContent() {
     }
   }
 
+  async function uploadImageFile(file: File) {
+    const { data } = await requireSupabase().auth.getUser();
+    if (!data.user) {
+      throw new Error("请先登录后再上传图片。");
+    }
+
+    return uploadCoverImage(file, data.user.id);
+  }
+
   async function handleUpload(file: File | null) {
     if (!file) return;
 
     try {
       setIsUploading(true);
       setMessage("");
-      const { data } = await requireSupabase().auth.getUser();
-      if (!data.user) {
-        throw new Error("请先登录后再上传封面图。");
-      }
-      const url = await uploadCoverImage(file, data.user.id);
+      const url = await uploadImageFile(file);
       updateField("coverImage", url);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "上传失败");
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
+  async function handleEditorImageUpload(file: File) {
+    try {
+      setIsUploading(true);
+      setMessage("");
+      return await uploadImageFile(file);
+    } catch (error) {
+      const messageText = error instanceof Error ? error.message : "上传失败";
+      setMessage(messageText);
+      throw new Error(messageText);
     } finally {
       setIsUploading(false);
     }
@@ -159,15 +179,14 @@ function PostEditorContent() {
               required
             />
           </label>
-          <label>
-            正文 Markdown
-            <textarea
-              rows={16}
+          <div className="editor-field">
+            <span>正文富文本</span>
+            <RichTextEditor
               value={values.content}
-              onChange={(event) => updateField("content", event.target.value)}
-              required
+              onChange={(content) => updateField("content", content)}
+              onUploadImage={handleEditorImageUpload}
             />
-          </label>
+          </div>
         </section>
 
         <aside className="editor-side">

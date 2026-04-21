@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import DOMPurify from "dompurify";
 import { Link, useParams } from "react-router-dom";
 import { fallbackPosts } from "../data/fallbackPosts";
 import { formatDate } from "../lib/date";
@@ -60,9 +60,7 @@ function PostDetailPage() {
           </div>
         </header>
         {post.coverImage ? <img className="article-cover" src={post.coverImage} alt={post.coverAlt || post.title} /> : null}
-        <div className="article-content">
-          <ReactMarkdown>{post.content}</ReactMarkdown>
-        </div>
+        <div className="article-content" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
       </article>
     </main>
   );

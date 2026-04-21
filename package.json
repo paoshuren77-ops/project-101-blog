@@ -12,9 +12,11 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.103.3",
     "@vitejs/plugin-react": "^5.0.4",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-react": "^1.0.6",
+    "dompurify": "^3.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.14.1",
     "typescript": "~5.9.3",
     "vite": "^7.1.7"

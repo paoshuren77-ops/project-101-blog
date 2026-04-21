@@ -10,7 +10,8 @@
 - Vite 7
 - TypeScript
 - React Router
-- React Markdown
+- wangEditor
+- DOMPurify
 - Supabase Auth
 - Supabase Postgres
 - Supabase Storage
@@ -19,13 +20,14 @@
 ## 功能
 
 - Blog 首页展示已发布文章
-- 文章详情页，支持 Markdown 正文渲染
+- 文章详情页，支持富文本正文渲染
 - 搜索文章标题、标签和作者
 - 按专题筛选文章
 - 明暗主题切换
 - 后台管理员登录
 - 后台文章列表
 - 新建、编辑、删除文章
+- 使用 wangEditor 富文本编辑正文
 - 支持草稿、发布、下架三种状态
 - 上传文章封面图到 Supabase Storage
 - 未配置 Supabase 时，前台展示内置示例文章
@@ -49,6 +51,7 @@
     ├── components/
     │   ├── AdminGuard.tsx     # 后台登录保护
     │   ├── PostCard.tsx       # 前台文章卡片
+    │   ├── RichTextEditor.tsx # wangEditor 富文本编辑器
     │   └── SiteHeader.tsx     # 顶部导航
     ├── data/
     │   └── fallbackPosts.ts   # 未配置 Supabase 时的示例文章
@@ -166,7 +169,7 @@ id             uuid
 title          标题
 slug           文章 URL 标识
 excerpt        摘要
-content        Markdown 正文
+content        HTML 富文本正文
 topic          专题
 author         作者
 tags           标签数组
@@ -190,7 +193,7 @@ updated_at     更新时间
 6. 状态选择 `发布`
 7. 保存后返回首页查看文章
 
-正文使用 Markdown 编写，文章详情页通过 `react-markdown` 渲染。
+正文使用 wangEditor 富文本编辑器编写，内容以 HTML 字符串保存到 `posts.content`，文章详情页通过 DOMPurify 净化后渲染。
 
 ## 常用命令
 
